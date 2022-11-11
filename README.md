@@ -69,7 +69,7 @@ export AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY>
 
 export AWS_DEFAULT_REGION=<AWS_DEFAULT_REGION>
 
-export MONGODB_URL="mongodb+srv://<username>:<password>@ineuron-ai-projects.7eh1w4s.mongodb.net/?retryWrites=true&w=majority"
+export MONGODB_URL="mongodb+srv://darsh:darsh1995@cluster0.3qobtiv.mongodb.net/test"
 
 ```
 
@@ -107,5 +107,5 @@ docker run -d -p 8080:8080 <IMAGE_NAME>
 
 MONGO DB URL: 
 ```
-mongodb+srv://temp-user:U8I5A6oh0jJVnVoU@ineuron-ai-projects.7eh1w4s.mongodb.net/admin?authSource=admin&replicaSet=atlas-okvkrd-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true
+mongodb+srv://darsh:darsh1995@cluster0.3qobtiv.mongodb.net/test
 ```
