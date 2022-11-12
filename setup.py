@@ -8,7 +8,6 @@ def get_requirements()->List[str]:
     requirement_list:List[str] = []
     with open('requirements.txt','r') as myfile:
         requirement_list = myfile.read().splitlines()
-
     return requirement_list
 
 # print(get_requirements())
