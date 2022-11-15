@@ -1,3 +1,6 @@
+'''
+This python file provides exception handling code for data pipeline 
+'''
 import sys
 
 def error_message_detail(error, error_detail:sys):
