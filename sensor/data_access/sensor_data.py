@@ -1,13 +1,14 @@
 import sys
 from typing import Optional
-
 import numpy as np
 import pandas as pd
-
 from sensor.configuration.mongo_db_connection import MongoDBClient
 from sensor.constant.database import DATABASE_NAME
 from sensor.exception import SensorException
+import warnings
+warnings.filterwarnings('ignore')
 
+# This class will be called in data ingestion file in component folder
 class SensorData:
     '''
     This class will export whole mongodb data as pandas dataframe
@@ -32,9 +33,9 @@ class SensorData:
             else:
                 self.collection = self.mongo_client[database_name][collection_name]
             df = pd.DataFrame(list(self.collection.find()))
-
+            # Removing the id column from the Mongodb data
             if '_id' in df.columns.to_list():
-                df.drop(columns=['_id'], axis=1)
+                df.drop(columns=['_id'], axis=1, inplace=True)
             df.replace({'na': np.nan}, inplace=True)
             return df
         except Exception as e:
