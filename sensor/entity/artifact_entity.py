@@ -24,3 +24,29 @@ class DataTransformationArtifact:
     transformed_train_file_path:str
     transformed_test_file_path:str
     transformed_object_file_path:str
+
+@dataclass
+class ClassificationMetricArtifact:
+    f1_score:str
+    precision_score:str
+    recall_score:str
+
+@dataclass
+class ModelTrainerArtifact:
+    trained_model_file_path:str
+    train_metric_artifact:ClassificationMetricArtifact
+    test_metric_artifact:ClassificationMetricArtifact
+
+@dataclass
+class ModelEvaluationArtifact:
+    is_model_accepted:bool
+    improved_accuracy:float
+    best_model_file_path:str
+    trained_model_path:str
+    train_model_metric_artifact:ClassificationMetricArtifact
+    best_model_metric_artifact:ClassificationMetricArtifact
+
+@dataclass
+class ModelPusherArtifact:
+    saved_model_path:str
+    model_path:str

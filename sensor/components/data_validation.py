@@ -219,9 +219,9 @@ class DataValidation:
                 # Create directory for valid directory
                 os.makedirs(dir_path, exist_ok=True)
                 # Train Data to valid directory
-                train_df.to_csv(self.data_validation_config.valid_train_file_path)
+                train_df.to_csv(self.data_validation_config.valid_train_file_path, index=0)
                 # Test Data to valid directory
-                test_df.to_csv(self.data_validation_config.valid_test_file_path)
+                test_df.to_csv(self.data_validation_config.valid_test_file_path, index=0)
                 
                 logging.info(f'Valid train saved at {self.data_validation_config.valid_train_file_path} and Test dataframe saved at {self.data_validation_config.valid_test_file_path}')
 
@@ -236,9 +236,9 @@ class DataValidation:
                 # Creating the directory
                 os.makedirs(dir_path, exist_ok=True)
                 # Train data into invalid directory
-                train_df.to_csv(self.data_validation_config.invalid_train_file_path)
+                train_df.to_csv(self.data_validation_config.invalid_train_file_path, index = 0)
                 # Test data into invalid directory
-                test_df.to_csv(self.data_validation_config.invalid_test_file_path)
+                test_df.to_csv(self.data_validation_config.invalid_test_file_path, index = 0)
 
                 logging.info(f"Validation_error: {validation_error_msg}")
 

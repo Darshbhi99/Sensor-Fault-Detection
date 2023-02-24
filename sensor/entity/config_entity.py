@@ -14,6 +14,12 @@ from sensor.constant.training_pipeline import DATA_VALIDATION_DIR_NAME, DATA_VAL
 from sensor.constant.training_pipeline import DATA_VALIDATION_DRIFT_REPORT_DIR, DATA_VALIDATION_DRIFT_REPORT_FILE_NAME
 from sensor.constant.training_pipeline import (DATA_TRANSFORMATION_DIR_NAME, DATA_TRANSFORMATION_TRANSFORMED_DATA_DIR, 
                                                 DATA_TRANSFORMATION_TRANSFORMED_OBJECT_DIR, PREPROCESSING_OBJECT_FILE_NAME)
+from sensor.constant.training_pipeline import (MODEL_TRAINER_DIR_NAME, MODEL_TRAINER_MODEL_DIR, MODEL_FILE_NAME,
+                                                MODEL_TRAINER_EXPECTED_SCORE, MODEL_TRAINER_THRESHOLD)
+from sensor.constant.training_pipeline import (MODEL_EVALUATION_DIR_NAME, MODEL_EVALUATION_REPORT_FILE_NAME, 
+                                                MODEL_EVALUATION_TRAINED_THRESHOLD_SCORE)
+from sensor.constant.training_pipeline import (MODEL_PUSHER_DIR_NAME, MODEL_PUSHER_MODEL_NAME, SAVED_MODEL_DIR_NAME)
+
 timestamp:str = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
 
 """ Training pipeline configuration class which contain 
@@ -29,8 +35,7 @@ class TrainingPipelineConfig:
 # Initialization of Training Pipeline config class
 training_pipeline_config:TrainingPipelineConfig = TrainingPipelineConfig()
 
-"""Data Ingestion configuration class contains all directory paths,
-    split ratio and collection name"""
+# This class will be called in the Data Ingestion file
 @dataclass
 class DataIngestionConfig:
 # artifact folder ---> timestamp ---> data ingestion folder
@@ -50,7 +55,7 @@ class DataIngestionConfig:
 # Data ingestion collection name i.e name of collection in mongodB
     collection_name:str = DATA_INGESTION_COLLECTION_NAME
 
-# Data Validation configuration class
+# This class will be called in Data Validation File
 @dataclass
 class DataValidationConfig:
 # artifact folder ---> data_validation folder
@@ -94,3 +99,44 @@ class DataTransformationConfig:
 # artifact folder --> data_transformation ---> transformed_object folder ---> object.pkl file
     transformed_object_file_path: str = os.path.join(
             data_transformation_dir, DATA_TRANSFORMATION_TRANSFORMED_OBJECT_DIR, PREPROCESSING_OBJECT_FILE_NAME)
+
+# This class will be called in Model Trainer File
+@dataclass
+class ModelTrainerConfig:
+# artifact folder ---> model_trainer folder
+    model_trainer_dir: str = os.path.join(
+        training_pipeline_config.artifact_dir, MODEL_TRAINER_DIR_NAME)
+# artifact folder --> model_trainer folder --> trained_model folder --> trained model pkl file
+    trained_model_file_path: str = os.path.join(
+        model_trainer_dir, MODEL_TRAINER_MODEL_DIR, MODEL_FILE_NAME)
+# Accuracy with which model will be checked
+    expected_accuracy:float = MODEL_TRAINER_EXPECTED_SCORE
+# Accuracy with which overfitting and underfitting will be checked
+    over_fitting_under_fitting_threshold:float = MODEL_TRAINER_THRESHOLD
+
+# This data will be called in Model Evaluation File
+@dataclass
+class ModelEvaluationConfig:
+# artifact folder ---> model_evaluation
+    model_evaluation_dir: str = os.path.join(
+        training_pipeline_config.artifact_dir, MODEL_EVALUATION_DIR_NAME)
+# artifact folder ---> model_evaluation ---> report.yaml
+    model_evaluation_report_file_path:str = os.path.join(
+        model_evaluation_dir, MODEL_EVALUATION_REPORT_FILE_NAME)
+# Model evaluation trained threshold 
+    model_evaluation_train_threshold:float = MODEL_EVALUATION_TRAINED_THRESHOLD_SCORE
+
+# This data will be called in Model Pusher File
+@dataclass
+class ModelPusherConfig:
+# artifact folder ---> model_pusher folder
+    model_pusher_dir:str = os.path.join(
+        training_pipeline_config.artifact_dir, MODEL_PUSHER_DIR_NAME)
+# artifact folder ---> model_pusher folder ---> model.pkl
+    pushed_model_file_path:str = os.path.join(
+        model_pusher_dir, MODEL_PUSHER_MODEL_NAME)
+# saved_model folder ---> timestamp
+    saved_model_dir:str = os.path.join(SAVED_MODEL_DIR_NAME, timestamp)
+# saved_model folder ---> timestamp folder ---> model.pkl
+    saved_model_file_path:str = os.path.join(
+        saved_model_dir, MODEL_FILE_NAME)

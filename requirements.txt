@@ -2,6 +2,10 @@ pymongo[srv]==4.2.0
 from-root
 pandas
 scikit-learn
+xgboost
+fastapi
+uvicorn
+python-multipart
 PyYAML
 scipy
 dill

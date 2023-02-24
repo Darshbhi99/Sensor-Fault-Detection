@@ -56,7 +56,7 @@ class DataIngestion:
 
             logging.info(f"Saving exported data into feature store file path: {feature_store_file_path}")
             # Saving the file in the filepath
-            dataframe.to_csv(feature_store_file_path, index=False, header=True)
+            dataframe.to_csv(feature_store_file_path, index=False, header=True, index_label=False)
 
             return dataframe
         except Exception as e:
@@ -90,10 +90,10 @@ class DataIngestion:
             logging.info(f"Exporting train and test file path.")
 
             train_set.to_csv(
-                self.data_ingestion_config.training_file_path, index=False, header=True)
+                self.data_ingestion_config.training_file_path, index=False, header=True, index_label=False)
 
             test_set.to_csv(
-                self.data_ingestion_config.testing_file_path, index=False, header=True)
+                self.data_ingestion_config.testing_file_path, index=False, header=True, index_label = False)
 
         except Exception as e:
             raise SensorException(e, sys) from e

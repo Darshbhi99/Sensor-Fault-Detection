@@ -54,6 +54,7 @@ class DataTransformation:
         try:
             train_df = DataTransformation.read_data(self.data_validation_artifact.valid_trained_file_path)
             test_df = DataTransformation.read_data(self.data_validation_artifact.valid_test_file_path)
+            logging.info(f'Train Data Shape {train_df.shape} and Test Data Shape {test_df.shape}')
             preprocessor = self.get_data_transformer_object()
             
             logging.info('Seperating the Independent and Dependent Data')
@@ -68,7 +69,8 @@ class DataTransformation:
             # Converting the categorical Target columns into numerical
             target_feature_test_df = test_df[TARGET_COLUMN]
             target_feature_test_df = target_feature_test_df.replace(TargetValueMapping().to_dict())
-            
+            logging.info(f'Train Data Shape: ')
+
             logging.info('Fitting the preprocessing pipeline to the data')
             # Fitting the Pipeline for both train and test data
             preprocessor_object = preprocessor.fit(input_feature_train_df)

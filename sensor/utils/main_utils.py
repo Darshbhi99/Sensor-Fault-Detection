@@ -1,3 +1,6 @@
+'''
+This file contain fucntion which are used at every stage of coding pipeline
+'''
 from sensor.exception import SensorException
 from sensor.logger import logging
 import numpy as np
@@ -37,7 +40,7 @@ def write_yaml_file(file_path:str, content:object, replace:bool=False) ->None:
 
 def save_object(file_path:str, obj:object) -> None:
     '''
-    Save the transformation object as pickle file
+    Save the model object as pickle file
     '''
     logging.info('Entering the save object method of main_utils class')
     try:
@@ -48,6 +51,19 @@ def save_object(file_path:str, obj:object) -> None:
     except Exception as e:
         raise SensorException(e, sys)
 
+
+def load_object(file_path:str):
+    '''
+    Load the model object as pickle file
+    '''
+    try:
+        if not os.path.exists(file_path):
+            raise SensorException(f'This {file_path} file does not exist')
+        with open(file_path, 'rb') as f:
+            file = dill.load(f)
+            return file
+    except Exception as e:
+        raise SensorException(e, sys)
 
 def save_numpy_array_data(file_path:str, array: np.array) -> None:
     '''
