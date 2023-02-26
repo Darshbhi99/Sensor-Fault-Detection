@@ -4,8 +4,7 @@ Data Ingestion, Data Validation, Data Transformation, Model Training, Data Evalu
 '''
 from sensor.entity.config_entity import (DataIngestionConfig, DataValidationConfig, 
                                         DataTransformationConfig, ModelTrainerConfig, ModelEvaluationConfig, 
-                                        ModelPusherConfig)
-from sensor.exception import SensorException
+                                        ModelPusherConfig, S3Config)
 from sensor.entity.artifact_entity import (DataIngestionArtifact, DataValidationArtifact, DataTransformationArtifact, 
                                         ModelTrainerArtifact, ModelEvaluationArtifact, ModelPusherArtifact)
 from sensor.components.data_ingestion import DataIngestion
@@ -14,6 +13,8 @@ from sensor.components.data_transformation import DataTransformation
 from sensor.components.model_trainer import ModelTrainer
 from sensor.components.model_evalution import ModelEvaluation
 from sensor.components.model_pusher import ModelPusher
+from sensor.cloud_storage.s3_syncer import S3Sync
+from sensor.exception import SensorException
 from sensor.logger import logging
 import sys
 import warnings
@@ -31,6 +32,7 @@ class TrainingPipeline:
         self.model_trainer_config = ModelTrainerConfig()
         self.model_evaluation_config = ModelEvaluationConfig()
         self.model_pusher_config = ModelPusherConfig()
+        self.s3_config = S3Config()
 
     def start_data_ingestion(self) ->DataIngestionArtifact: 
         try:
@@ -107,6 +109,22 @@ class TrainingPipeline:
             return model_pusher_artifact
         except Exception as e:
             raise SensorException(e,sys)
+    
+    def sync_artifact_dir_to_s3(self) -> None:
+        try:
+            logging.info('Syncing artifact dir to S3')
+            aws_bucket_url = self.s3_config.aws_url_artifact_dir
+            S3Sync.sync_folder_to_s3(self.s3_config.artifact_dir, aws_bucket_url=aws_bucket_url)
+        except Exception as e:
+            raise SensorException(e,sys)
+        
+    def sync_saved_models_dir_to_s3(self) -> None:
+        try:
+            logging.info('Syncing saved model dir to S3')
+            aws_bucket_url = self.s3_config.aws_url_saved_model_dir
+            S3Sync.sync_folder_to_s3(self.s3_config.saved_model_dir_name, aws_bucket_url=aws_bucket_url)
+        except Exception as e:
+            raise SensorException(e, sys)
 
     def run_pipeline(self):
         try:
@@ -119,7 +137,10 @@ class TrainingPipeline:
                                                                                     data_validation_artifact)
             model_pusher_artifact:ModelPusherArtifact = self.start_model_pusher(model_evaluation_artifact)
             TrainingPipeline.is_pipeline_running = False
+            self.sync_artifact_dir_to_s3()
+            self.sync_saved_models_dir_to_s3()
             return model_pusher_artifact
         except Exception as e:
+            self.sync_artifact_dir_to_s3()
             TrainingPipeline.is_pipeline_running = False
             raise SensorException(e,sys)

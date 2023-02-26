@@ -53,3 +53,6 @@ MODEL_PUSHER_MODEL_NAME:str = MODEL_FILE_NAME
 
 # This constant will be used in ml folder model folder estimator file
 SAVED_MODEL_DIR_NAME = os.path.join('saved_models')
+
+# S3 Bucket Constants
+AWS_BUCKET_NAME:str = TRAINING_BUCKET_NAME

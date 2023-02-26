@@ -18,7 +18,7 @@ from sensor.constant.training_pipeline import (MODEL_TRAINER_DIR_NAME, MODEL_TRA
                                                 MODEL_TRAINER_EXPECTED_SCORE, MODEL_TRAINER_THRESHOLD)
 from sensor.constant.training_pipeline import (MODEL_EVALUATION_DIR_NAME, MODEL_EVALUATION_REPORT_FILE_NAME, 
                                                 MODEL_EVALUATION_TRAINED_THRESHOLD_SCORE)
-from sensor.constant.training_pipeline import (MODEL_PUSHER_DIR_NAME, MODEL_PUSHER_MODEL_NAME, SAVED_MODEL_DIR_NAME)
+from sensor.constant.training_pipeline import (MODEL_PUSHER_DIR_NAME, MODEL_PUSHER_MODEL_NAME, SAVED_MODEL_DIR_NAME, TRAINING_BUCKET_NAME)
 
 timestamp:str = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
 
@@ -140,3 +140,12 @@ class ModelPusherConfig:
 # saved_model folder ---> timestamp folder ---> model.pkl
     saved_model_file_path:str = os.path.join(
         saved_model_dir, MODEL_FILE_NAME)
+    
+@dataclass
+class S3Config:
+    artifact_dir:str =  ARTIFACT_DIR
+    saved_model_dir_name:str = SAVED_MODEL_DIR_NAME
+# trainig_bucket name folder ---> artifact folder ---> timestamp folder
+    aws_url_artifact_dir:str = f"s3://{TRAINING_BUCKET_NAME}/{artifact_dir}/{training_pipeline_config.timestamp}"
+# training_bucket name folder ---> saved_model folder 
+    aws_url_saved_model_dir:str = f"s3://{TRAINING_BUCKET_NAME}/{saved_model_dir_name}"
