@@ -11,8 +11,4 @@ scipy
 dill
 imblearn
 evidently
-<<<<<<< HEAD
 -e .
-=======
--e .
->>>>>>> d92b6c2bd0a64ceb498a1de18ce9853c13cf85c7
