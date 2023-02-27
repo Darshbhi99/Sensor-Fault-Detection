@@ -37,7 +37,7 @@ async def predict_route(data:UploadFile):
         df = BytesIO(content)
         uploaded_df = pd.read_csv(df, index_col=0)
         uploaded_df.drop('class', axis=1, inplace=True)
-        train_df = pd.read_csv()
+        # train_df = pd.read_csv()
         print(df.shape)
         resolve = ModelResolver()
         latest_model_path = resolve.get_latest_model_path()
