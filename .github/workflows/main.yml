@@ -85,15 +85,9 @@ jobs:
       - name: Pull latest images
         run: |
          docker pull ${{secrets.AWS_ECR_LOGIN_URI}}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
-<<<<<<< HEAD:.github/workflows/main.yml
       # - name: Stop and remove sensor container if running
       #   run: |
       #    docker ps -q --filter "name=sensor" | grep -q . && docker stop sensor && docker rm -fv sensor
-=======
-#       - name: Stop and remove sensor container if running
-#         run: |
-#          docker ps -q --filter "name=sensor" | grep -q . && docker stop sensor && docker rm -fv sensor
->>>>>>> d92b6c2bd0a64ceb498a1de18ce9853c13cf85c7:.github/workflow/main.yml
        
       - name: Run Docker Image to serve users
         run: |
