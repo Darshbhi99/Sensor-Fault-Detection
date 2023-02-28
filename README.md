@@ -36,7 +36,7 @@ Before we run the project, make sure that you are having MongoDB in your local s
 ![image](https://user-images.githubusercontent.com/57321948/193536768-ae704adc-32d9-4c6c-b234-79c152f756c5.png)
 
 
-## Deployment Archietecture
+## Deployment Architecture
 ![image](https://user-images.githubusercontent.com/57321948/193536973-4530fe7d-5509-4609-bfd2-cd702fc82423.png)
 
 
