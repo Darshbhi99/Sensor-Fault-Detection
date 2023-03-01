@@ -128,3 +128,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# files
+ECR Repo Info.txt
+sensor-app_accessKeys.csv
+SensorAppKeypair.pem
